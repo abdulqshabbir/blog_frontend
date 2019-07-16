@@ -7,6 +7,6 @@ afterEach(cleanup)
 const Login = () => <p>Hello world</p>
 
 test('renders content', () => {
-    const component = render(<Login />)
-    expect(component).toHaveTextContent('Hello world')
+  const component = render(<Login />)
+  expect(component).toHaveTextContent('Hello world')
 })

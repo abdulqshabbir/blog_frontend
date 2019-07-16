@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react'
 import Login from './components/Login'
 import FrontPage from './components/FrontPage'
 
@@ -18,23 +18,23 @@ const App = () => {
       })
     }
   }, [])
-  
+
   if (authenticatedUser === null) {
     return (
       <div>
-        < Login 
+        < Login
           setAuthenticatedUser={setAuthenticatedUser}
           authenticatedUser={authenticatedUser}
         />
       </div>
     )
   }
-  
+
   else {
     return (
       <div>
-        < FrontPage 
-          user={authenticatedUser} 
+        < FrontPage
+          user={authenticatedUser}
           setUser={setAuthenticatedUser}
         />
       </div>
@@ -42,6 +42,4 @@ const App = () => {
   }
 }
 
-
-
-export default App;
+export default App
