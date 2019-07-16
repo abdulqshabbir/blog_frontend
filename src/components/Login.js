@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import axios from 'axios';
+import axios from 'axios'
+import PropTypes from 'prop-types'
 
 const Login = ({ setAuthenticatedUser, authenticatedUser }) => {
     // component state
@@ -74,3 +75,8 @@ const Login = ({ setAuthenticatedUser, authenticatedUser }) => {
 }
 
 export default Login
+
+Login.propTypes = {
+    setAuthenticatedUser: PropTypes.func.isRequired,
+    authenticatedUser: PropTypes.bool.isRequired
+}

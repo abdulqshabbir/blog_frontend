@@ -1,26 +1,58 @@
 import axios from 'axios'
 
-const createBlog = ({ title, author, url}) => {
-    if (window.localStorage.getItem('token')) {
-        const username = window.localStorage.getItem('username')
-        const token = window.localStorage.getItem('token')
-        const id = window.localStorage.getItem('id')
-        const payload = {username, token, id, likes: 0}
+let token = null
+let config = {}
 
+const setToken = newToken => {
+    token = `bearer ${newToken}`
+    config = {
+        headers: {Authorization: token}
+    }
+}
+
+const createBlog = ({ title, author, url}) => {
+    if (token) {
+        const payload = {
+            title, 
+            author, 
+            url, 
+            likes: 0, 
+            token
+        }
         axios
-            .request({
-                method: 'POST',
-                url: `http://localhost:5000/api/blogs`,
-                headers: {
-                    'Authorization': `bearer ${token}`
-                },
-                data: JSON.stringify(payload)
-            })
-            .then(res => console.log(res.data))
+            .post(`http://localhost:5000/api/blogs`, payload, config)
             .catch(err => console.log(err))
     }
 }
 
+const updateLikes = async (blogId, numberOfLikes) => {
+    if(token) {
+        try {
+            const payload = {
+                token,
+                likes: numberOfLikes
+            }
+            await axios.put(`http://localhost:5000/api/blogs/${blogId}`, payload, config)
+        }   
+        catch (e) {
+            console.log(e)
+        }
+    }
+}
+
+const deleteBlog = async (blogId) => {
+    if (token) {
+        try {
+            await axios.delete(`http://localhost:5000/api/blogs/${blogId}`, config)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
 export default {
-    createBlog: createBlog
+    createBlog,
+    setToken,
+    updateLikes,
+    deleteBlog
 }

@@ -2,28 +2,12 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import CreateBlog from './CreateBlog'
-
-/*
-    @user has shape: [Object] 
-    { blogs: 
-        [ 
-            {
-                title: String, 
-                author: String}, 
-                url: String
-            }, 
-            {...}, 
-            {...}
-        ],
-        username: String,
-        name: String,
-        id: String
-    }
-*/
+import Blog from './Blog'
+import PropTypes from 'prop-types'
 
 const FrontPage = ({ user, setUser }) => {
     const [ blogs, setBlogs ] = useState({})
-    const [isLoading, setIsLoading ] = useState(true)
+    const [ isLoading, setIsLoading ] = useState(true)
   
     useEffect(() => {
         const fetchBlogs = async () => {
@@ -52,15 +36,43 @@ const FrontPage = ({ user, setUser }) => {
                 <h1>Welcome, to my Blog Application</h1>
                 <h3>{user.username} just logged in.</h3>
                 <button onClick={handleUserLogout}>Log out</button>
-                < CreateBlog />
-                {blogs.map(blog => 
-                        <p key={blog.id}> 
-                            {blog.title} {blog.author}
-                        </p>
-                )}
+                < CreateBlog user={user} />
+                {blogs
+                    .sort((blogA, blogB) => (blogB.likes - blogA.likes))
+                    .map(blog =>
+                        < Blog 
+                            user={user}
+                            blog={blog}
+                            key={blog.id} 
+                        />
+                    )
+                }
             </div>
         )
     }
 }
 
 export default FrontPage
+
+FrontPage.propTypes = {
+    user: PropTypes.object.isRequired,
+    setUser: PropTypes.func.isRequired
+}
+
+/*
+    @user has shape: [Object] 
+    { blogs: 
+        [ 
+            {
+                title: String, 
+                author: String}, 
+                url: String
+            }, 
+            {...}, 
+            {...}
+        ],
+        username: String,
+        name: String,
+        id: String
+    }
+*/
