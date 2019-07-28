@@ -24,7 +24,7 @@ const Blog = ({ user, blog }) => {
 
   if(!isFullBlogVisible) {
     return(
-      <div className="blog" onClick={() => setIsFullBlogVisible(true)}>
+      <div className="blog" data-testid="full-blog-hidden" onClick={() => setIsFullBlogVisible(true)}>
         <p>{blog.title} written by {blog.author}</p>
       </div>
     )
@@ -32,7 +32,7 @@ const Blog = ({ user, blog }) => {
 
   else {
     return (
-      <div key={blog.id} className="blog" onClick={() => setIsFullBlogVisible(false)}>
+      <div key={blog.id} className="blog" data-testid="full-blog-shown" onClick={() => setIsFullBlogVisible(false)}>
         <h3>{blog.title} </h3>
         <p>Created by {blog.author}</p>
         <p>Link to full blog article: {blog.url}</p>
@@ -46,6 +46,6 @@ const Blog = ({ user, blog }) => {
 export default Blog
 
 Blog.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired || null,
   blog: PropTypes.object.isRequired
 }
