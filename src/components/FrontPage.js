@@ -1,22 +1,24 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import CreateBlog from './CreateBlog'
 import Blog from './Blog'
 import PropTypes from 'prop-types'
+import useResource from './../hooks/useResource'
+import { connect } from 'react-redux'
 
 const FrontPage = ({ user, setUser }) => {
   const [ blogs, setBlogs ] = useState({})
   const [ isLoading, setIsLoading ] = useState(true)
+  const blogService = useResource('http://localhost:5000/api/blogs')
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const response = await axios('http://localhost:5000/api/blogs')
-      setBlogs(response.data)
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
       setIsLoading(false)
     }
     fetchBlogs()
-  }, [])
+  }, [blogService])
 
   const handleUserLogout = () => {
     const storage = window.localStorage
@@ -52,7 +54,13 @@ const FrontPage = ({ user, setUser }) => {
   }
 }
 
-export default FrontPage
+const mapStateToProps = (state) => {
+  return {
+    username: state.username
+  }
+}
+
+export default connect(mapStateToProps, null)(FrontPage)
 
 FrontPage.propTypes = {
   user: PropTypes.object.isRequired,

@@ -1,33 +1,25 @@
 import React, { useState } from 'react'
+import { createStore } from 'redux'
 
-const useCounter = () => {
-	const [ value, setValue ] = useState(0)
-
-	const increment = () => {
-		setValue(value + 1)
-	}
-
-	const decrement = () => {
-		setValue(value - 1)
-	}
-
-	return {
-		value,
-		increment,
-		decrement
+const counterReducer = (state = 0, action) => {
+	if (action.type === 'INC') {
+		return state + 1
+	} else if (action.type === 'DEC') {
+		return state -1
+	} else {
+		return state
 	}
 }
 
-const Counter = () => {
-	const counter = useCounter()
+const store = createStore(counterReducer)
 
+const Counter = () => {
 	return (
 		<div>
-			Counter Value: { counter.value }
-			<button onClick={ counter.increment }> Increment </button>
-			<button onClick={ counter.decrement }> Decrement </button>
+			Counter Value: { store.getState() }
+			<button onClick={ () => store.dispatch({ type: 'INC' }) }> Increment </button>
+			<button onClick={ () => store.dispatch({ type: 'DEC' }) }> Decrement </button>
 		</div>
 	)
 }
-
 export default Counter

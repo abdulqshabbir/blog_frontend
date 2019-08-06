@@ -3,22 +3,20 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import useField from './../hooks/useField'
 
 const Login = ({ setAuthenticatedUser, authenticatedUser }) => {
-  // component state
-  const [ user, setUser ] = useState({})
-  const [ username, setUsername ] = useState('')
-  const [ password, setPassword ] = useState('')
+  // component state using the custom hook useField
 
-  // controlled components: username and password
-  const handleUsernameChange = (e) => setUsername(e.target.value)
-  const handlePasswordChange = (e) => setPassword(e.target.value)
+  const username = useField('text') // username is an object with an interface: {type: ..., value: ..., onChange: ...}
+  const password = useField('password')
+  const [ user, setUser ] = useState({})
 
   const handleLoginSubmit = (e) => {
     e.preventDefault()
     setUser({
-      username,
-      password
+      username: username.value,
+      password: password.value
     })
   }
 
@@ -59,17 +57,17 @@ const Login = ({ setAuthenticatedUser, authenticatedUser }) => {
         <div>
                     Username:
           <input
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
+            type={username.type}
+            value={username.value}
+            onChange={username.onChange}
           />
         </div>
         <div>
                     Password:
           <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
+            type={password.type}
+            value={password.value}
+            onChange={password.onChange}
           />
         </div>
         <button type="submit">login</button>

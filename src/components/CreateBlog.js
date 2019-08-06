@@ -1,25 +1,30 @@
 import React, { useState } from 'react'
 import BlogServices from './../services/BlogServices'
 import PropTypes from 'prop-types'
+import useField from './../hooks/useField'
 
 const CreateBlog = ({ user }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
   const [formIsVisible, setFormIsVisible] = useState(false)
 
   const handleCreateBlog = (e) => {
     e.preventDefault()
-    const title = e.target.elements.title.value
-    const url = e.target.elements.url.value
-    const author = e.target.elements.author.value
-
+    // set user token for authentication
     BlogServices.setToken(user.token)
+
+    // send a post request to /api/blogs to create a new blog
     BlogServices.createBlog({
-      title,
-      url,
-      author
+      title: e.target.elements.title.value,
+      url: e.target.elements.url.value,
+      author: e.target.elements.author.value
     })
+
+    // clear input fields
+    title.clear()
+    author.clear()
+    url.clear()
   }
 
   if (formIsVisible) {
@@ -29,28 +34,28 @@ const CreateBlog = ({ user }) => {
           <div>
                         Title:
             <input
-              type="text"
+              type={title.type}
               name="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={title.value}
+              onChange={title.onChange}
             />
           </div>
           <div>
                         Author:
             <input
-              type="text"
+              type={author.type}
               name="author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              value={author.value}
+              onChange={author.onChange}
             />
           </div>
           <div>
                         URL:
             <input
-              type="text"
+              type={url.type}
               name="url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              value={url.value}
+              onChange={url.onChange}
             />
           </div>
           <button type="submit"> Create Blog </button>
