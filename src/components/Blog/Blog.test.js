@@ -1,11 +1,10 @@
 import React from 'react'
-import { render, cleanup, fireEvent, waitForElement, getByText } from '@testing-library/react'
-import { prettyDOM } from '@testing-library/dom'
+import { render, cleanup, fireEvent, waitForElement } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import Blog from './Blog'
 
 
-let component, mockHandler
+let component
 const user = {
     token: '111',
     userForToken: {
@@ -27,7 +26,6 @@ describe('< Blog />', () => {
 
     beforeEach(() => {
         component = render( < Blog blog={blog} user={user} />)
-        mockHandler = jest.fn()
     })
 
     test('by default, only some of the blog is shown', () => {

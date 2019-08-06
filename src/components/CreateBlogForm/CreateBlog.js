@@ -1,9 +1,18 @@
 import React, { useState } from 'react'
-import BlogServices from './../services/BlogServices'
+import BlogServices from '../../services/BlogServices'
 import PropTypes from 'prop-types'
-import useField from './../hooks/useField'
+import useField from '../../hooks/useField'
+import { showNotification, hideNotification } from '../../reducers/notification/notificationReducer'
+import { connect } from 'react-redux'
 
-const CreateBlog = ({ user }) => {
+const mapDispatchToProps = dispatch => {
+  return {
+    showNotification: text => dispatch(showNotification(text)),
+    hideNotification: () => dispatch(hideNotification())
+  }
+}
+
+const CreateBlog = ({ user, showNotification, hideNotification }) => {
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
@@ -25,6 +34,10 @@ const CreateBlog = ({ user }) => {
     title.clear()
     author.clear()
     url.clear()
+
+    // show notification
+    showNotification('this is a notification')
+    setTimeout(() => hideNotification(), 2000)
   }
 
   if (formIsVisible) {
@@ -67,11 +80,9 @@ const CreateBlog = ({ user }) => {
       <button onClick={() => setFormIsVisible(true)}> New Blog </button>
     )
   }
-
-
 }
 
-export default CreateBlog
+export default connect(null, mapDispatchToProps)(CreateBlog)
 
 CreateBlog.propTypes = {
   user: PropTypes.object.isRequired

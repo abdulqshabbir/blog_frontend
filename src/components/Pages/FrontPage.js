@@ -1,13 +1,27 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import CreateBlog from './CreateBlog'
-import Blog from './Blog'
+import CreateBlog from '../CreateBlogForm/CreateBlog'
+import Blog from '../Blog/Blog'
 import PropTypes from 'prop-types'
-import useResource from './../hooks/useResource'
+import useResource from '../../hooks/useResource'
 import { connect } from 'react-redux'
+import { setBlogs } from '../../reducers/blogs/blogsReducer'
+import Notification from '../Notification/Notification'
 
-const FrontPage = ({ user, setUser }) => {
-  const [ blogs, setBlogs ] = useState({})
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs,
+    notification: state.notification
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setBlogs: blogs => dispatch(setBlogs(blogs)),
+  }
+}
+
+const FrontPage = ({ user, setUser, blogs, notification, setBlogs }) => {
   const [ isLoading, setIsLoading ] = useState(true)
   const blogService = useResource('http://localhost:5000/api/blogs')
 
@@ -18,7 +32,7 @@ const FrontPage = ({ user, setUser }) => {
       setIsLoading(false)
     }
     fetchBlogs()
-  }, [blogService])
+  }, [setBlogs])
 
   const handleUserLogout = () => {
     const storage = window.localStorage
@@ -38,6 +52,7 @@ const FrontPage = ({ user, setUser }) => {
         <h1>Welcome, to my Blog Application</h1>
         <h3>{user.username} just logged in.</h3>
         <button onClick={handleUserLogout}>Log out</button>
+        {notification.isVisible ? <Notification text={notification.text} /> : null}
         < CreateBlog user={user} />
         {blogs
           .sort((blogA, blogB) => (blogB.likes - blogA.likes))
@@ -54,33 +69,9 @@ const FrontPage = ({ user, setUser }) => {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    username: state.username
-  }
-}
-
-export default connect(mapStateToProps, null)(FrontPage)
+export default connect(mapStateToProps, mapDispatchToProps)(FrontPage)
 
 FrontPage.propTypes = {
   user: PropTypes.object.isRequired,
   setUser: PropTypes.func.isRequired
 }
-
-/*
-    @user has shape: [Object]
-    { blogs:
-        [
-            {
-                title: String,
-                author: String},
-                url: String
-            },
-            {...},
-            {...}
-        ],
-        username: String,
-        name: String,
-        id: String
-    }
-*/

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './blog.css'
-import BlogServices from './../services/BlogServices'
+import BlogServices from '../../services/BlogServices'
 import PropTypes from 'prop-types'
 
 const Blog = ({ user, blog }) => {

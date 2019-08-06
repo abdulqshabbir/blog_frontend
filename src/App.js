@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Login from './components/Login'
-import FrontPage from './components/FrontPage'
-import Signup from './components/Signup'
+import Login from './components/Login/Login'
+import FrontPage from './components/Pages/FrontPage'
+import Signup from './components/Signup/Signup'
 
 const App = () => {
   const [ authenticatedUser, setAuthenticatedUser ] = useState(null)

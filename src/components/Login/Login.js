@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import useField from './../hooks/useField'
+import useField from '../../hooks/useField'
 
 const Login = ({ setAuthenticatedUser, authenticatedUser }) => {
   // component state using the custom hook useField
