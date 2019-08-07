@@ -14,7 +14,7 @@ const blogsReducer = (state = initialState, action) => {
     switch(action.type) {
         case SET_BLOGS:
             return action.blogs
-        default: 
+        default:
             return state
     }
 }

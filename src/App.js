@@ -1,47 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Login from './components/Login/Login'
 import FrontPage from './components/Pages/FrontPage'
 import Signup from './components/Signup/Signup'
+import userIfUserAlreadyLoggedIn from './hooks/userIfUserAlreadyLoggedIn'
+import { loginUser } from './reducers/user/userReducer'
+import { connect } from 'react-redux'
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loginUser: (username, token, id) => dispatch(loginUser(username, token, id)),
+  }
+}
 
 const App = () => {
-  const [ authenticatedUser, setAuthenticatedUser ] = useState(null)
-
-  useEffect(() => {
-    // check to see if user is aleady logged in
-    if(window.localStorage.getItem('token')) {
-      const username = window.localStorage.getItem('username')
-      const token = window.localStorage.getItem('token')
-      const id = window.localStorage.getItem('id')
-      setAuthenticatedUser({
-        username,
-        token,
-        id
-      })
-    }
-  }, [])
-
-  if (authenticatedUser === null) {
+  const user = userIfUserAlreadyLoggedIn()
+  // if user not already logged in
+  if (!(user.username && user.id && user.token)) {
     return (
       <div>
-        < Login
-          setAuthenticatedUser={setAuthenticatedUser}
-          authenticatedUser={authenticatedUser}
-        />
+        < Login />
         < Signup />
       </div>
     )
   }
 
   else {
+    // save user to the redux store
+    loginUser(user.username, user.token, user.id)
     return (
       <div>
         < FrontPage
-          user={authenticatedUser}
-          setUser={setAuthenticatedUser}
+          user={user}
         />
       </div>
     )
   }
 }
 
-export default App
+export default connect(null, mapDispatchToProps)(App)

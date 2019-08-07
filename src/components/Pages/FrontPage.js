@@ -2,26 +2,28 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import CreateBlog from '../CreateBlogForm/CreateBlog'
 import Blog from '../Blog/Blog'
-import PropTypes from 'prop-types'
 import useResource from '../../hooks/useResource'
 import { connect } from 'react-redux'
 import { setBlogs } from '../../reducers/blogs/blogsReducer'
 import Notification from '../Notification/Notification'
+import { logoutUser } from './../../reducers/user/userReducer'
 
 const mapStateToProps = (state) => {
   return {
     blogs: state.blogs,
-    notification: state.notification
+    notification: state.notification,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setBlogs: blogs => dispatch(setBlogs(blogs)),
+    logoutUser: () => dispatch(logoutUser())
   }
 }
 
-const FrontPage = ({ user, setUser, blogs, notification, setBlogs }) => {
+const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser }) => {
   const [ isLoading, setIsLoading ] = useState(true)
   const blogService = useResource('http://localhost:5000/api/blogs')
 
@@ -32,14 +34,14 @@ const FrontPage = ({ user, setUser, blogs, notification, setBlogs }) => {
       setIsLoading(false)
     }
     fetchBlogs()
-  }, [setBlogs])
+  }, [setBlogs, blogService])
 
   const handleUserLogout = () => {
     const storage = window.localStorage
-    // clear user data from browswer
+    // clear user data from local storage
     storage.clear()
-    // clear user data from react and trigger re-render
-    setUser(null)
+    // clear user data from redux store
+    logoutUser()
   }
 
   if (isLoading) {
@@ -70,8 +72,3 @@ const FrontPage = ({ user, setUser, blogs, notification, setBlogs }) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FrontPage)
-
-FrontPage.propTypes = {
-  user: PropTypes.object.isRequired,
-  setUser: PropTypes.func.isRequired
-}
