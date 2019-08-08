@@ -1,11 +1,14 @@
+// General imports
 import React, { useEffect } from 'react'
-import Login from './components/Login/Login'
-import FrontPage from './components/Pages/FrontPage'
-import Signup from './components/Signup/Signup'
 import { loginUser } from './reducers/user/userReducer'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import UsersPage from './components/Pages/UsersPage'
+import { Route, Switch } from 'react-router-dom'
+
+// components
+import Signup from './components/Signup/Signup'
+import Login from './components/Login/Login'
+import FrontPage from './components/Pages/FrontPage/FrontPage'
+import UsersPage from './components/Pages/UsersPage/UsersPage'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -43,27 +46,23 @@ const App = ({ user, loginUser }) => {
   // check if user information is already stored in the browswer
   if (!user || user.username === null) {
     return (
-      <Router>
         <div>
           <Switch>
             <Route exact path="/signup" component={Signup} />
             <Route path="/" component={Login} />
           </Switch>
         </div>
-      </Router>
     )
   }
   // user in redux store
   else {
     return (
-      <Router>
         <div>
           <Switch>
-            <Route exact path="/users" component={() => <UsersPage /> } />
+            <Route exact path="/users" component={ UsersPage } />
             <Route path="/" render={() => <FrontPage user={user} /> } />
           </Switch>
         </div>
-      </Router>
     )
   }
 }

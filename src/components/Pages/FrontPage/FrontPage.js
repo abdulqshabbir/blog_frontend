@@ -1,12 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import CreateBlog from '../CreateBlogForm/CreateBlog'
-import Blog from '../Blog/Blog'
-import useResource from '../../hooks/useResource'
+import CreateBlog from '../../CreateBlogForm/CreateBlog'
+import Blog from '../../Blog/Blog'
+import useResource from './../../../hooks/useResource'
 import { connect } from 'react-redux'
-import { setBlogs } from '../../reducers/blogs/blogsReducer'
-import Notification from '../Notification/Notification'
-import { logoutUser } from './../../reducers/user/userReducer'
+import { setBlogs } from '../../../reducers/blogs/blogsReducer'
+import Notification from '../../Notification/Notification'
+import { logoutUser } from '../../../reducers/user/userReducer'
 
 const mapStateToProps = (state) => {
   return {

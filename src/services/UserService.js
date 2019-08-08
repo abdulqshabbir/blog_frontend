@@ -35,6 +35,15 @@ const logout = () => {
 }
 
 const fetchAllUsers = async () => {
+    try {
+        const response = await axios.get(`${BASE_URL}/users`)
+        if (response.status === 200) {
+            const users = await response.data
+            return users
+        }
+    } catch(e) {
+        console.log(e)
+    }
 }
 
 export const userService = {
