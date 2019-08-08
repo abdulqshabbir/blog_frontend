@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { userService } from './../../services/UserService'
 
 // Action types
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER'
@@ -6,35 +6,19 @@ export const DO_NOT_AUTHENTICATE_USER = 'DO_NOT_AUTHENTICATE_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const LOGIN_USER = 'LOGIN_USER'
 
-const saveUserInLocalStorage = (username, id, token) => {
-    const storage = window.localStorage
-    storage.setItem('username', username)
-    storage.setItem('token', token)
-    storage.setItem('id', id)
-}
-
-
-// Action Creators
 export const attemptToAuthenticateUser = (username, password) => {
     return async dispatch => {
-        const response = await axios.post('http://localhost:5000/api/login', { username, password })
-        if (response.status === 200) { //username and password match
-            console.log('hellloooo')
-            const username = response.data.userForToken.username
-            const id = response.data.userForToken.id
-            const token = response.data.token
-            // save user in local storage
-            saveUserInLocalStorage(username, id, token)
+        const user = await userService.login(username, password)
 
-            //save user in redux storage
+        if(!user || user.username === null) {
+            dispatch({ type: DO_NOT_AUTHENTICATE_USER })
+        } else {
             dispatch({
                 type: LOGIN_USER,
-                username,
-                token,
-                id
+                username: user.username,
+                token: user.token,
+                id: user.id
             })
-        } else {
-            dispatch({ type: DO_NOT_AUTHENTICATE_USER })
         }
     }
 }

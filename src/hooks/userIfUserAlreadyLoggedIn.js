@@ -1,4 +1,4 @@
-const userIfUserAlreadyLoggedIn = () => {
+const getUserIfUserAlreadyLoggedIn = () => {
   const user = { username: null, token: null, id: null }
   if(window.localStorage.getItem('token')) {
     const username = window.localStorage.getItem('username')
@@ -9,4 +9,4 @@ const userIfUserAlreadyLoggedIn = () => {
   return user
 }
 
-export default userIfUserAlreadyLoggedIn
+export default getUserIfUserAlreadyLoggedIn

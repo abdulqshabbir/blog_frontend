@@ -34,12 +34,11 @@ const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser }) => {
       setIsLoading(false)
     }
     fetchBlogs()
-  }, [setBlogs, blogService])
+  }, [setBlogs])
 
   const handleUserLogout = () => {
-    const storage = window.localStorage
     // clear user data from local storage
-    storage.clear()
+    window.localStorage.clear()
     // clear user data from redux store
     logoutUser()
   }

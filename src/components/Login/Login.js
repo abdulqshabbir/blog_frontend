@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { attemptToAuthenticateUser } from './../../reducers/user/userReducer'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -39,6 +40,7 @@ const Login = ({ attemptToAuthenticateUser }) => {
           />
         </div>
         <button type="submit">login</button>
+        <Link to="/signup">Sign up here</Link>
       </form>
     </div>
   )
