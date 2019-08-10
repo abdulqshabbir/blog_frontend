@@ -9,6 +9,8 @@ import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
 import FrontPage from './components/Pages/FrontPage/FrontPage'
 import UsersPage from './components/Pages/UsersPage/UsersPage'
+import UserPage from './components/Pages/UserPage/UserPage'
+import BlogShowPage from './components/Pages/BlogPage/BlogShowPage'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -59,8 +61,10 @@ const App = ({ user, loginUser }) => {
     return (
         <div>
           <Switch>
+            <Route exact path="/" render={() => <FrontPage user={user} /> } />
             <Route exact path="/users" component={ UsersPage } />
-            <Route path="/" render={() => <FrontPage user={user} /> } />
+            <Route path="/users/:id" component={ UserPage } />
+            <Route path="/blogs/:id" component={ BlogShowPage } />
           </Switch>
         </div>
     )

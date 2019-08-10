@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './blog.css'
 import BlogServices from '../../services/BlogServices'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ user, blog }) => {
   const [ isFullBlogVisible, setIsFullBlogVisible ] = useState(false)
@@ -32,13 +33,13 @@ const Blog = ({ user, blog }) => {
 
   else {
     return (
-      <div key={blog.id} className="blog" data-testid="full-blog-shown" onClick={() => setIsFullBlogVisible(false)}>
-        <h3>{blog.title} </h3>
-        <p>Created by {blog.author}</p>
-        <p>Link to full blog article: {blog.url}</p>
-        <p>Number of likes: {likes} <button onClick={handleLikePress}>like</button></p>
-        <button onClick={handleBlogDeletion}>Delete Blog</button>
-      </div>
+        <div key={blog.id} className="blog" data-testid="full-blog-shown" onClick={() => setIsFullBlogVisible(false)}>
+          <h3><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></h3>
+          <p>Created by {blog.author}</p>
+          <p>Link to full blog article: {blog.url}</p>
+          <p>Number of likes: {likes} <button onClick={handleLikePress}>like</button></p>
+          <button onClick={handleBlogDeletion}>Delete Blog</button>
+        </div>
     )
   }
 }

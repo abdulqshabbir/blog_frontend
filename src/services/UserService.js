@@ -46,8 +46,27 @@ const fetchAllUsers = async () => {
     }
 }
 
+const fetchUserById = async (id) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/users`)
+        if (response.status === 200) {
+            const users = await response.data
+            const user = users.find(u => u.id === id)
+            if (!user) {
+                return null
+            } else {
+                return user
+            }
+        }
+        return null
+    } catch(e) {
+        console.log(e)
+    }
+}
+
 export const userService = {
     login,
     logout,
-    fetchAllUsers
+    fetchAllUsers,
+    fetchUserById
 }

@@ -34,7 +34,7 @@ const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser }) => {
       setIsLoading(false)
     }
     fetchBlogs()
-  }, [setBlogs])
+  }, [ setBlogs ])
 
   const handleUserLogout = () => {
     // clear user data from local storage

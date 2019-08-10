@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { userService } from './../../../services/UserService'
 import { Redirect } from 'react-router-dom'
+import { userService } from './../../../services/UserService'
 import { logoutUser } from './../../../reducers/user/userReducer'
+import { Link } from 'react-router-dom'
 
 const mapStateToProps = (state) => {
     return {
@@ -53,7 +54,7 @@ const UsersPage = ({ username, logoutUser }) => {
                         </tr>
                         {users.map(user =>
                             <tr key={user.username}>
-                                <td>{user.name}</td>
+                                <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
                                 <td>{user.username}</td>
                                 <td>{user.blogs.length}</td>
                             </tr>
