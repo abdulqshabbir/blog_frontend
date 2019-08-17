@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser, history }) => {
+const FrontPage = ({ user, blogs, notification, setBlogs, history }) => {
   const [ isLoading, setIsLoading ] = useState(true)
   const blogService = useResource('http://localhost:5000/api/blogs')
 
@@ -36,13 +36,6 @@ const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser, history })
     fetchBlogs()
   }, [ setBlogs ])
 
-  const handleUserLogout = () => {
-    // clear user data from local storage
-    window.localStorage.clear()
-    // clear user data from redux store
-    logoutUser()
-  }
-
   if (isLoading) {
     return <p>Please wait a moment</p>
   }
@@ -51,8 +44,6 @@ const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser, history })
     return (
       <div>
         <h1>Welcome, to my Blog Application</h1>
-        <h3>{user.username} just logged in.</h3>
-        <button onClick={handleUserLogout}>Log out</button>
         {notification.isVisible ? <Notification text={notification.text} /> : null}
         < CreateBlog user={user} history={history}/>
         {blogs

@@ -47,7 +47,7 @@ const CreateBlog = ({ user, showNotification, hideNotification, createBlog }) =>
       <div>
         <form onSubmit={handleCreateBlog}>
           <div>
-                        Title:
+            Title:
             <input
               type={title.type}
               name="title"
@@ -56,7 +56,7 @@ const CreateBlog = ({ user, showNotification, hideNotification, createBlog }) =>
             />
           </div>
           <div>
-                        Author:
+            Author:
             <input
               type={author.type}
               name="author"
@@ -65,7 +65,7 @@ const CreateBlog = ({ user, showNotification, hideNotification, createBlog }) =>
             />
           </div>
           <div>
-                        URL:
+            URL:
             <input
               type={url.type}
               name="url"
