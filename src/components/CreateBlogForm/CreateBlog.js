@@ -3,16 +3,18 @@ import BlogServices from '../../services/BlogServices'
 import PropTypes from 'prop-types'
 import useField from '../../hooks/useField'
 import { showNotification, hideNotification } from '../../reducers/notification/notificationReducer'
+import { createBlog } from './../../reducers/blogs/blogsReducer'
 import { connect } from 'react-redux'
 
 const mapDispatchToProps = dispatch => {
   return {
     showNotification: text => dispatch(showNotification(text)),
-    hideNotification: () => dispatch(hideNotification())
+    hideNotification: () => dispatch(hideNotification()),
+    createBlog: ({ title, author, url }) => dispatch(createBlog({ title, author, url }))
   }
 }
 
-const CreateBlog = ({ user, showNotification, hideNotification }) => {
+const CreateBlog = ({ user, showNotification, hideNotification, createBlog }) => {
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
@@ -24,7 +26,7 @@ const CreateBlog = ({ user, showNotification, hideNotification }) => {
     BlogServices.setToken(user.token)
 
     // send a post request to /api/blogs to create a new blog
-    BlogServices.createBlog({
+    createBlog({
       title: e.target.elements.title.value,
       url: e.target.elements.url.value,
       author: e.target.elements.author.value

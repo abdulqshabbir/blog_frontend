@@ -11,21 +11,22 @@ const setToken = newToken => {
 }
 
 
-const createBlog = ({ title, author, url }) => {
+const createBlog = async ({ title, author, url }) => {
   if (token) {
-    const payload = {
-      title,
-      author,
-      url,
-      likes: 0,
-      token
+    const payload = { title, author, url, likes: 0, token }
+    try {
+      const response = await axios.post('http://localhost:5000/api/blogs', payload, config)
+      return response.data
+    } catch (exception) {
+      console.error(exception)
     }
-    axios
-      .post('http://localhost:5000/api/blogs', payload, config)
-      .catch(err => console.log(err))
+  }
+  else {
+    return null
   }
 }
 
+// returns a particular blogs updated like count as a number
 const updateLikes = async (blogId, numberOfLikes) => {
   if(token) {
     try {
@@ -33,10 +34,12 @@ const updateLikes = async (blogId, numberOfLikes) => {
         token,
         likes: numberOfLikes
       }
-      await axios.put(`http://localhost:5000/api/blogs/${blogId}`, payload, config)
+      const response = await axios.put(`http://localhost:5000/api/blogs/${blogId}`, payload, config)
+      return response.data
     }
     catch (e) {
       console.log(e)
+      return null
     }
   }
 }

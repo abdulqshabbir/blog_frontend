@@ -6,6 +6,7 @@ export const DO_NOT_AUTHENTICATE_USER = 'DO_NOT_AUTHENTICATE_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const LOGIN_USER = 'LOGIN_USER'
 
+// Action creators
 export const attemptToAuthenticateUser = (username, password) => {
     return async dispatch => {
         const user = await userService.login(username, password)
