@@ -53,6 +53,7 @@ const FrontPage = ({ user, blogs, notification, setBlogs, history }) => {
               user={user}
               blog={blog}
               key={blog.id}
+              id={blog.id}
             />
           )
         }

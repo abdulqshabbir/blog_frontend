@@ -1,44 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { logoutUser } from './../../../reducers/user/userReducer'
-import axios from 'axios'
-import BlogService from './../../../services/BlogServices'
-const BASE_URL = 'http://localhost:5000/api/blogs/'
+import BlogService from '../../../services/BlogServices'
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        blogs: state.blogs
     }
 }
-
 const mapDispatchToProps = (dispatch) => {
     return {
         logoutUser: () => dispatch(logoutUser())
     }
 }
 
-const BlogShowPage = ({ match, user, logoutUser }) => {
-    const [ blog, setBlog ] = useState(null)
+const BlogShowPage = ({ match, user, blogs, logoutUser }) => {
     const blogId = match.params.id
-    useEffect(() => {
-        const findBlogById = async (id) => {
-            try {
-                const response = await axios.get(`${BASE_URL}/${id}`)
-                setBlog(response.data)
-            } catch (e) {
-                console.log(e)
-            }
-        }
-        findBlogById(blogId)
-    }, [blogId])
-
-    const handleClick = async () => {
-        try {
-            await BlogService.setToken(user.token)
-            await BlogService.updateLikes(blog.id, blog.likes)
-        } catch (exception) {
-            console.log(exception)
-        }
+    const blog = blogs.find(blog => blog.id === blogId)
+    const handleLikePress = (e) => {
+        e.stopPropagation()
+        BlogService.setToken(user.token)
+        BlogService.updateLikes(blog.id, blog.likes)
     }
     if (!blog) {
         return null
@@ -50,8 +33,9 @@ const BlogShowPage = ({ match, user, logoutUser }) => {
             <button onClick={logoutUser}>logout</button>
             <h1>{blog.title}</h1>
             <a href={`${blog.url}`}>{blog.url}</a>
-            <p>{blog.likes} likes <button onClick={handleClick}>like</button></p>
+            <p>{blog.likes} likes <button onClick={handleLikePress}>like</button></p>
             <p>added by {blog.author}</p>
+            <h3>Comments: </h3>
         </div>
     )
 }

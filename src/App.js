@@ -66,7 +66,7 @@ const App = ({ user, loginUser }) => {
           <Switch>
             <Route exact path="/users" component={ UsersPage } />
             <Route path="/users/:id" component={ UserPage } />
-            <Route path="/blogs/:id" component={ BlogShowPage } />
+            <Route path="/blogs/:id" render={({ match }) => <BlogShowPage match={match} />} />
             <Route path="/" render={() => <FrontPage user={user} history={history}/> } />
           </Switch>
         </div>
