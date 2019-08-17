@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { logoutUser } from './../../../reducers/user/userReducer'
 import axios from 'axios'
 import BlogService from './../../../services/BlogServices'
-import Blog from '../../Blog/Blog';
 const BASE_URL = 'http://localhost:5000/api/blogs/'
 
 const mapStateToProps = (state) => {
@@ -29,11 +28,11 @@ const BlogShowPage = ({ match, user, logoutUser }) => {
             } catch (e) {
                 console.log(e)
             }
-        } 
+        }
         findBlogById(blogId)
     }, [blogId])
 
-    const handleClick = async (e) => {
+    const handleClick = async () => {
         try {
             await BlogService.setToken(user.token)
             await BlogService.updateLikes(blog.id, blog.likes)

@@ -61,10 +61,10 @@ const App = ({ user, loginUser }) => {
     return (
         <div>
           <Switch>
-            <Route exact path="/" render={() => <FrontPage user={user} /> } />
             <Route exact path="/users" component={ UsersPage } />
             <Route path="/users/:id" component={ UserPage } />
             <Route path="/blogs/:id" component={ BlogShowPage } />
+            <Route path="/" render={() => <FrontPage user={user} /> } />
           </Switch>
         </div>
     )
