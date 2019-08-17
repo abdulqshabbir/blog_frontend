@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser }) => {
+const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser, history }) => {
   const [ isLoading, setIsLoading ] = useState(true)
   const blogService = useResource('http://localhost:5000/api/blogs')
 
@@ -54,7 +54,7 @@ const FrontPage = ({ user, blogs, notification, setBlogs, logoutUser }) => {
         <h3>{user.username} just logged in.</h3>
         <button onClick={handleUserLogout}>Log out</button>
         {notification.isVisible ? <Notification text={notification.text} /> : null}
-        < CreateBlog user={user} />
+        < CreateBlog user={user} history={history}/>
         {blogs
           .sort((blogA, blogB) => (blogB.likes - blogA.likes))
           .map(blog =>

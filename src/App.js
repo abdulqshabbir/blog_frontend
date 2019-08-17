@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { loginUser } from './reducers/user/userReducer'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
+import history from './history'
 
 // components
 import Signup from './components/Signup/Signup'
@@ -11,6 +12,7 @@ import FrontPage from './components/Pages/FrontPage/FrontPage'
 import UsersPage from './components/Pages/UsersPage/UsersPage'
 import UserPage from './components/Pages/UserPage/UserPage'
 import BlogShowPage from './components/Pages/BlogPage/BlogShowPage'
+import NavigationMenu from './components/NavigationMenu/NavigationMenu'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -60,11 +62,12 @@ const App = ({ user, loginUser }) => {
   else {
     return (
         <div>
+          <NavigationMenu history={history}/>
           <Switch>
             <Route exact path="/users" component={ UsersPage } />
             <Route path="/users/:id" component={ UserPage } />
             <Route path="/blogs/:id" component={ BlogShowPage } />
-            <Route path="/" render={() => <FrontPage user={user} /> } />
+            <Route path="/" render={() => <FrontPage user={user} history={history}/> } />
           </Switch>
         </div>
     )
